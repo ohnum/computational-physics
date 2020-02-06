@@ -92,7 +92,9 @@ class root:
         self.value = x_new
         return self.value, k
 
+
 class ode:
+    # f(x, y) = dy/dx
     def __init__(self):
         self.value = 0
 
@@ -110,7 +112,6 @@ class ode:
         return self.value
 
     def taylor(self, f, dfdx, dfdy, bc, lim, N):
-        # Where f(x, y) = dy/dx
         self.value = 0
         h = (lim[1]-lim[0])/N
         x = lim[0]
@@ -125,7 +126,6 @@ class ode:
         return self.value
 
     def implicit(self, f, g, bc, lim, N):
-        # Where f(x, y) = dy/dx
         self.value = 0
         h = (lim[1]-lim[0])/N
         x = lim[0]
@@ -186,3 +186,83 @@ class ode:
 
         self.value = y_new
         return self.value
+
+
+class ode2:
+    # f(x, y) = dy/dx
+    def __init__(self):
+        self.value = [0,0]
+
+    def rk2(self, f, f_prime, bc, lim, N):
+        self.value = [0,0]
+        h = (lim[1]-lim[0])/N
+        x = lim[0]
+        y = bc[0]
+        z = bc[1]
+        for i in range(0, N):
+            k = h*f_prime(x, y)
+            z_new = z + h*f_prime(x+h/2, y+k/2)
+
+            k = h*f(x, z)
+            y_new = y + h*f(x+h/2, z+k/2)
+
+            x += h
+            y = y_new
+            z = z_new
+
+        self.value[0] = y
+        self.value[1] = z
+        return y, z
+
+
+    def rk3(self, f, f_prime, bc, lim, N):
+        self.value = [0,0]
+        h = (lim[1]-lim[0])/N
+        x = lim[0]
+        y = bc[0]
+        z = bc[1]
+        for i in range(0, N):
+            k1 = h*f_prime(x, y)
+            k2 = h*f_prime(x+h/2, y+k1/2)
+            k3 = h*f_prime(x+h, y-k1+2*k2)
+            z_new = z + 1/6*(k1 + 4*k2 + k3)
+
+            k1 = h*f(x, z)
+            k2 = h*f(x+h/2, z+k1/2)
+            k3 = h*f(x+h, z-k1+2*k2)
+            y_new = y + 1/6*(k1 + 4*k2 + k3)
+
+            x += h
+            y = y_new
+            z = z_new
+
+        self.value[0] = y
+        self.value[1] = z
+        return y, z
+
+    def rk4(self, f, f_prime, bc, lim, N):
+        self.value = [0,0]
+        h = (lim[1]-lim[0])/N
+        x = lim[0]
+        y = bc[0]
+        z = bc[1]
+        for i in range(0, N):
+            k1 = h*f_prime(x, y)
+            k2 = h*f_prime(x+h/2, y+k1/2)
+            k3 = h*f_prime(x+h/2, y+k2/2)
+            k4 = h*f_prime(x+h, y+k3)
+            z_new = z + 1/6*(k1 + 2*k2 + 2*k3 + k4)
+
+            k1 = h*f(x, z)
+            k2 = h*f(x+h/2, z+k1/2)
+            k3 = h*f(x+h/2, z+k2/2)
+            k4 = h*f(x+h, z+k3)
+            y_new = y + 1/6*(k1 + 2*k2 + 2*k3 + k4)
+
+            x += h
+            y = y_new
+            z = z_new
+
+        self.value[0] = y
+        self.value[1] = z
+        return y, z

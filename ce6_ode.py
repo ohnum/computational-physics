@@ -23,7 +23,7 @@ ref = np.exp(-x**2/2)
 limit = [0, x]
 y0 = 1.0
 
-N = 2000 # partitions of x
+N = 100 # partitions of x
 print('N =', N)
 solution = np.zeros(N)
 

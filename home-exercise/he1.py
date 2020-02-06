@@ -1,5 +1,5 @@
 import sys
-sys.path.append("../class-exercise/")
+sys.path.append("../")
 import numpy as np
 import matplotlib.pyplot as plt
 from numerical_methods import *
@@ -94,4 +94,3 @@ print('Done.')
 
 plt.legend(loc="upper right")
 plt.show()
-print('Done.')
